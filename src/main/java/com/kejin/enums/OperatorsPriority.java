@@ -2,7 +2,7 @@ package com.kejin.enums;
 
 public class OperatorsPriority {
     /**
-     * 方法调用
+     * 函数
      */
     public static final int LEVEL_0 = 0;
     /**

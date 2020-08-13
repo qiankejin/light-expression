@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.kejin.enums.OperatorsPriority.LEVEL_1;
+import static com.kejin.enums.OperatorsPriority.LEVEL_0;
 
 public abstract class MethodOperators extends Operators {
 
     @Override
     public int priority() {
-        return LEVEL_1;
+        return LEVEL_0;
     }
 
     public abstract void check(List<Var> argList) throws CompileException;

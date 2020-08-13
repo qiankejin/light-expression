@@ -15,20 +15,18 @@ public class BenchMark {
     @Test
     public void 性能测试() throws CompileException {
         //表达式
-//      String ex = "TY00027T=\"单进单出\"&&XT00010T<>\"无水阳台\"&&XT00010T<>\"冷水阳台\"&&XT00010T<>\"热水阳台\"&&XT00009T<>\"玄关\"&&XT00009T<>\"过道\"&&XT00009T<>\"门厅\"&&XT00009T<>\"更衣室\"&&XT00009T<>\"干区\"&&XT00009T<>\"淋浴房\"&&XT00009T<>\"储物间\"";
-        String ex = "TY00027T==\"单进单出\"&&notIn(XT00010T,\"无水阳台\",\"冷水阳台\",\"热水阳台\")&&notIn(XT00009T,\"玄关\",\"过道\",\"门厅\",\"更衣室\",\"干区\",\"淋浴房\",\"储物间\")";
-
-        //词法分析
-        List<Node> lexical = LexicalRunner.compile(ex);
-        //语法分析
-        Var compile = GrammarRunner.grammar(lexical, 0, lexical.size() - 1, false);
+        String ex = "TY00027T==\"单进单出\"&&notIn(XT00010T,\"无水阳台\",\"冷水阳台\",\"热水阳台\")";
+        //编译
+        Var compile  = ExpressCompiler.compile(ex);
+        //变量入参
         Map<String, Value> varMap = new HashMap<>();
-        varMap.put("XT00005N", Value.of(3));
-        varMap.put("XT00023N", Value.of(1));
+        varMap.put("TY00027T", Value.of("单进单出"));
+        varMap.put("XT00010T", Value.of("衣帽间"));
         varMap.put("TY00020B", Value.of(false));
         varMap.put("XT00025N", Value.of(1));
-        System.out.println(compile + "=" + compile.fill(varMap));
-        System.out.println(varMap);
+        //计算表达式
+        Value result = compile.fill(varMap);
+        System.out.println(compile + "=" + result);
         //触发JIT编译
         for (int i = 0; i < 100000; i++) {
             LexicalRunner.compile(ex);
@@ -49,6 +47,7 @@ public class BenchMark {
             LexicalRunner.compile(ex);
         }
         System.out.println("词法分析十万次耗时:" + (System.currentTimeMillis() - begin) + "ms");
+        List<Node> lexical=LexicalRunner.compile(ex);
         begin = System.currentTimeMillis();
         for (int i = 0; i < 100000; i++) {
             GrammarRunner.grammar(lexical, 0, lexical.size() - 1, false);
