@@ -8,7 +8,7 @@
 ## 使用方法：
 
 ```
-//表达式
+        //表达式
         String ex = "TY00027T==\"单进单出\"&&notIn(XT00010T,\"无水阳台\",\"冷水阳台\",\"热水阳台\")";
         //编译
         Var compile  = ExpressCompiler.compile(ex);
@@ -32,7 +32,8 @@ TY00027T=="单进单出"&&notIn(XT00010T,"无水阳台","冷水阳台","热水�
 语法分析十万次耗时:7ms
 ```
 ## 支持的运算符
-/**
+```
+    /**
      * 函数
      */
     public static final int LEVEL_0 = 0;
@@ -86,3 +87,4 @@ TY00027T=="单进单出"&&notIn(XT00010T,"无水阳台","冷水阳台","热水�
      * = 
      * */
     public static final int LEVEL_12 = 12;
+```
