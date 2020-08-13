@@ -31,3 +31,58 @@ TY00027T=="单进单出"&&notIn(XT00010T,"无水阳台","冷水阳台","热水�
 词法分析十万次耗时:50ms
 语法分析十万次耗时:7ms
 ```
+## 支持的运算符
+/**
+     * 函数
+     */
+    public static final int LEVEL_0 = 0;
+    /**
+     * ! ~ 
+     */
+    public static final int LEVEL_1 = 1;
+    /**
+     * *  /  %
+     */
+    public static final int LEVEL_2 = 2;
+
+    /**
+     * + -
+     */
+    public static final int LEVEL_3 = 3;
+    /**
+     * << >> >>>
+     */
+    public static final int LEVEL_4 = 4;
+    /**
+     * < <= > >=
+     * */
+    public static final int LEVEL_5 = 5;
+    /**
+     * == !=
+     * */
+    public static final int LEVEL_6 = 6;
+    /**
+     * &
+     * */
+    public static final int LEVEL_7 = 7;
+    /**
+     * ^
+     * */
+    public static final int LEVEL_8 = 8;
+    /**
+     * |
+     * */
+    public static final int LEVEL_9 = 9;
+    /**
+     * &&
+     * */
+    public static final int LEVEL_10 = 10;
+    /**
+     * ||
+     * */
+    public static final int LEVEL_11 = 11;
+
+    /**
+     * = 
+     * */
+    public static final int LEVEL_12 = 12;
