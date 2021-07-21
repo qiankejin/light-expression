@@ -13,11 +13,11 @@ import java.util.function.Function;
 public class HalfUp extends SingleArgMethod {
     @Override
     public String symbol() {
-        return "halfUp";
+        return "HALFUP";
     }
 
     @Override
-    protected void checkArg(Var arg) throws CompileException {
+    protected void checkArg(Var arg)  {
         if (arg.valueType() != ValueType.NUMBER) {
             throw new CompileException("HalfUp函数入参必须是数值");
         }

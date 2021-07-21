@@ -1,6 +1,5 @@
 package com.kejin.operator.method;
 
-import com.kejin.enums.CompileException;
 import com.kejin.enums.ValueType;
 import com.kejin.express.BrokersExpress;
 import com.kejin.operator.MethodOperators;
@@ -15,11 +14,11 @@ public class Concat extends MethodOperators {
 
     @Override
     public String symbol() {
-        return "concat";
+        return "CONCAT";
     }
 
     @Override
-    public void check(List<Var> argList) throws CompileException {
+    public void check(List<Var> argList)  {
     }
 
     @Override
@@ -29,7 +28,7 @@ public class Concat extends MethodOperators {
 
     @Override
     protected Function<List<Value>, Value> calculateFunction() {
-        return v->Value.of(v.stream().map(Value::toString).collect(Collectors.joining()));
+        return v -> Value.of(v.stream().map(Value::toString).collect(Collectors.joining()));
     }
 
 }

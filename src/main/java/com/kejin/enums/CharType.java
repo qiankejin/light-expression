@@ -5,7 +5,7 @@ package com.kejin.enums;
  */
 public enum CharType {
     /**
-     * 符运算符
+     * 运算符
      */
     OPERATOR,
     /**

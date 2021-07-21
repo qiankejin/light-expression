@@ -22,7 +22,7 @@ public enum GrammarState {
     SINGLE_REDUCE,
     /**
      * 函数规约
-     * */
+     */
     METHOD_REDUCE,
     /**
      * 参数列表规约

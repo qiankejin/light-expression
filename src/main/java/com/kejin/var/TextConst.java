@@ -14,7 +14,6 @@ public class TextConst extends Const implements TextVar {
         return compileCache.getWithInit(value, TextConst::new);
     }
 
-
     @Override
     public Value fill(Map<String, Value> varMap) {
         return value;

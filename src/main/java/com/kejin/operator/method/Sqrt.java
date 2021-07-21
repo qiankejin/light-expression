@@ -15,11 +15,11 @@ public class Sqrt extends SingleArgMethod {
 
     @Override
     public String symbol() {
-        return "sqrt";
+        return "SQRT";
     }
 
     @Override
-    protected void checkArg(Var arg) throws CompileException {
+    protected void checkArg(Var arg)  {
         if (arg.valueType() != ValueType.NUMBER) {
             throw new CompileException("sqrt函数入参必须是数值");
         }

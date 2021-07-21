@@ -4,7 +4,7 @@ package com.kejin.var;
 public class BooleanArg extends Arg implements BooleanVar {
 
     private BooleanArg(String code) {
-        this.code = code;
+        super(code);
     }
 
     public static BooleanArg of(String code) {

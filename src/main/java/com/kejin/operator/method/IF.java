@@ -14,7 +14,7 @@ import java.util.function.Function;
 public class IF extends MethodOperators {
 
     @Override
-    public void check(List<Var> argList) throws CompileException {
+    public void check(List<Var> argList)  {
         if (argList.size() != 3) {
             throw new CompileException("if表达式参数必须是三个");
         }
@@ -55,7 +55,7 @@ public class IF extends MethodOperators {
 
     @Override
     public String symbol() {
-        return "if";
+        return "IF";
     }
 
 }

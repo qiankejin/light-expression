@@ -16,13 +16,13 @@ public class Power extends MethodOperators {
 
 
     @Override
-    public void check(List<Var> argList) throws CompileException {
+    public void check(List<Var> argList)  {
         if (argList.size() != 2) {
             throw new CompileException("pow表达式参数必须是两个");
         }
         Var left = argList.get(0);
         Var right = argList.get(1);
-        if (left.valueType() != ValueType.NUMBER||right.valueType() != ValueType.NUMBER) {
+        if (left.valueType() != ValueType.NUMBER || right.valueType() != ValueType.NUMBER) {
             throw new CompileException("pow表达式参数必须是数字");
         }
     }
@@ -34,7 +34,7 @@ public class Power extends MethodOperators {
 
     @Override
     public String symbol() {
-        return "Pow";
+        return "POW";
     }
 
     @Override

@@ -10,8 +10,10 @@ import com.kejin.operator.DoubleOperators;
 import com.kejin.operator.MethodOperators;
 import com.kejin.operator.Operators;
 import com.kejin.operator.SingleOperator;
+import com.kejin.operator.calculate.Case;
 import com.kejin.operator.placeholder.BrokersRight;
 import com.kejin.operator.placeholder.Comma;
+import com.kejin.var.Const;
 import com.kejin.var.Var;
 
 import java.util.LinkedList;
@@ -22,7 +24,7 @@ import static com.kejin.enums.GrammarState.*;
 public class GrammarRunner {
 
 
-    public static Var grammar(List<Node> tree, int start, int end, boolean broker) throws CompileException {
+    public static Var grammar(List<Node> tree, int start, int end, boolean broker)  {
         GrammarState grammarStat = START;
         int brokerDeep = 0;
         int startPoint = start;
@@ -49,13 +51,14 @@ public class GrammarRunner {
                         case START:
                         case SINGLE_REDUCE:
                         case OPERATOR_REDUCE:
+                        case ARG_LIST_REDUCE:
                             startPoint = endPoint;
                             grammarStat = METHOD_REDUCE;
                             break;
                         case BROKER_REDUCE:
                             break;
                         default:
-                            throw new CompileException("语法错误");
+                            throw new CompileException("语法错误"+tree);
                     }
                     break;
                 case OPERATOR:
@@ -98,7 +101,7 @@ public class GrammarRunner {
                             grammarStat = START;
                             continue;
                         default:
-                            throw new CompileException("语法错误");
+                            throw new CompileException("语法错误"+tree);
                     }
                     break;
 
@@ -108,13 +111,14 @@ public class GrammarRunner {
                         case SINGLE_REDUCE:
                         case OPERATOR_REDUCE:
                         case METHOD_REDUCE:
+                        case ARG_LIST_REDUCE:
                             startPoint = endPoint;
                             grammarStat = BROKER_REDUCE;
                             break;
                         case BROKER_REDUCE:
                             break;
                         default:
-                            throw new CompileException("语法错误");
+                            throw new CompileException("语法错误"+tree);
                     }
                     brokerDeep++;
                     break;
@@ -140,12 +144,32 @@ public class GrammarRunner {
                             startPoint = endPoint - 1;
                             grammarStat = ARG_LIST_REDUCE;
                             break;
-                        case BROKER_REDUCE:
+                        case SINGLE_REDUCE:
+                            singleExpress(tree, startPoint);
+                            endPoint = start;
+                            end -= 1;
+                            grammarStat = START;
+                            continue;
                         case OPERATOR_REDUCE:
+                            express(tree, startPoint, start);
+                            endPoint = start;
+                            end -= 2;
+                            grammarStat = START;
+                            continue;
                         case ARG_LIST_REDUCE:
+                        case BROKER_REDUCE:
                             break;
+                        case METHOD_REDUCE:
+                            if (end - startPoint < 1) {
+                                throw new CompileException("函数缺少右边参数");
+                            }
+                            methodExpress(tree, startPoint);
+                            endPoint = start;
+                            end -= 1;
+                            grammarStat = START;
+                            continue;
                         default:
-                            throw new CompileException("语法错误");
+                            throw new CompileException("语法错误"+tree);
                     }
                     break;
                 case SIMPLE_OPERATOR:
@@ -173,7 +197,7 @@ public class GrammarRunner {
                         case BROKER_REDUCE:
                             break;
                         default:
-                            throw new CompileException("语法错误");
+                            throw new CompileException("语法错误"+tree);
                     }
                     break;
 
@@ -217,7 +241,7 @@ public class GrammarRunner {
                     case BROKER_REDUCE:
                         throw new CompileException("括号未正确关闭");
                     default:
-                        throw new CompileException("语法错误");
+                        throw new CompileException("语法错误"+tree);
                 }
                 endPoint = start;
                 grammarStat = START;
@@ -233,7 +257,7 @@ public class GrammarRunner {
         }
     }
 
-    private static void commaExpress(List<Node> stack, int start, int end) throws CompileException {
+    private static void commaExpress(List<Node> stack, int start, int end)  {
         int state = 1;
         List<Var> argList = new LinkedList<>();
         for (int i = start; i <= end; i++) {
@@ -259,7 +283,7 @@ public class GrammarRunner {
     }
 
 
-    private static void singleExpress(List<Node> stack, int start) throws CompileException {
+    private static void singleExpress(List<Node> stack, int start)  {
         Node op = stack.remove(start);
         Node right = stack.remove(start);
         if (op instanceof SingleOperator && right instanceof Var) {
@@ -270,7 +294,7 @@ public class GrammarRunner {
         }
     }
 
-    private static void methodExpress(List<Node> stack, int start) throws CompileException {
+    private static void methodExpress(List<Node> stack, int start)  {
         Node op = stack.remove(start);
         Node right = stack.remove(start);
         if (op instanceof MethodOperators && right instanceof BrokersExpress) {
@@ -281,7 +305,7 @@ public class GrammarRunner {
         }
     }
 
-    private static void express(List<Node> stack, int startPoint, int start) throws CompileException {
+    private static void express(List<Node> stack, int startPoint, int start)  {
         if (startPoint < start) {
             throw new CompileException(stack.get(start) + "运算符缺少左边变量");
         }
@@ -291,10 +315,17 @@ public class GrammarRunner {
         if (op instanceof DoubleOperators && left instanceof Var && right instanceof Var) {
             Var leftVar = (Var) left;
             Var rightVar = (Var) right;
-            DoubleOperators operator = (DoubleOperators) op;
-            operator.check(leftVar, rightVar);
-            Var express = new BinaryExpress(leftVar, operator, rightVar);
-            stack.add(startPoint, express);
+            if (op instanceof Case) {
+                Case operator = (Case) op;
+                operator.check(leftVar, rightVar);
+                Var express = new CaseExpress((Const) leftVar, rightVar);
+                stack.add(startPoint, express);
+            } else {
+                DoubleOperators operator = (DoubleOperators) op;
+                operator.check(leftVar, rightVar);
+                Var express = new BinaryExpress(leftVar, operator, rightVar);
+                stack.add(startPoint, express);
+            }
         } else {
             throw new CompileException("双目运算符语法不对" + left + op + right);
         }

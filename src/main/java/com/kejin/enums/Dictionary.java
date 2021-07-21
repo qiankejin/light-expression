@@ -2,10 +2,15 @@ package com.kejin.enums;
 
 
 import com.kejin.operator.Operators;
+import com.kejin.operator.calculate.*;
+import com.kejin.operator.compare.*;
+import com.kejin.operator.method.*;
+import com.kejin.operator.placeholder.BrokersLeft;
+import com.kejin.operator.placeholder.BrokersRight;
+import com.kejin.operator.placeholder.Comma;
+import com.kejin.operator.single.BitNot;
+import com.kejin.operator.single.Not;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +25,10 @@ public class Dictionary {
     private static final FastMap<CharType> CHAR_TYPE = new FastMap<>();
 
     static {
+        init();
+    }
+
+    private static void init() {
         CHAR_TYPE.add('1', CharType.NUMBER);
         CHAR_TYPE.add('2', CharType.NUMBER);
         CHAR_TYPE.add('3', CharType.NUMBER);
@@ -46,23 +55,49 @@ public class Dictionary {
         CHAR_TYPE.add('>', CharType.OPERATOR);
         CHAR_TYPE.add('<', CharType.OPERATOR);
         CHAR_TYPE.add('=', CharType.OPERATOR);
+        CHAR_TYPE.add(':', CharType.OPERATOR);
         CHAR_TYPE.add('&', CharType.OPERATOR);
         CHAR_TYPE.add('|', CharType.OPERATOR);
         CHAR_TYPE.init(CharType.ARG);
-        InputStream input = Dictionary.class.getClassLoader().getResourceAsStream("operator.conf");
-        if (input == null) {
-            throw new RuntimeException("找不到运算符配置文件");
-        }
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                Operators operators = (Operators) Class.forName(line).newInstance();
-                OPERATOR.put(operators.symbol(), operators);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("运算符配置文件读取错误", e);
-
-        }
+        register(new And());
+        register(new BitAnd());
+        register(new BitOr());
+        register(new BitXOR());
+        register(new Divide());
+        register(new Eval());
+        register(new Mod());
+        register(new Multiply());
+        register(new Or());
+        register(new Plus());
+        register(new Case());
+        register(new ShiftLeftWithSign());
+        register(new ShiftRight());
+        register(new ShiftRightWithSign());
+        register(new Subtract());
+        register(new Equal());
+        register(new GreaterThan());
+        register(new GreaterThanOE());
+        register(new LessThan());
+        register(new LessThanOE());
+        register(new NotEqual());
+        register(new Concat());
+        register(new Cos());
+        register(new HalfUp());
+        register(new IF());
+        register(new IN());
+        register(new Max());
+        register(new NotIn());
+        register(new Power());
+        register(new RoundDown());
+        register(new RoundUp());
+        register(new Sqrt());
+        register(new Switch());
+        register(new RoundStep());
+        register(new BrokersLeft());
+        register(new BrokersRight());
+        register(new Comma());
+        register(new BitNot());
+        register(new Not());
     }
 
     public static synchronized void register(Operators operators) {

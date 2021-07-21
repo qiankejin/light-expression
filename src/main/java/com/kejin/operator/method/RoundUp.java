@@ -15,12 +15,12 @@ public class RoundUp extends MethodOperators {
 
     @Override
     public String symbol() {
-        return "roundUp";
+        return "ROUNDUP";
     }
 
 
     @Override
-    public void check(List<Var> argList) throws CompileException {
+    public void check(List<Var> argList)  {
         if (argList.size() > 2) {
             throw new CompileException("RoundUp函数只接受两个数值参数");
         }

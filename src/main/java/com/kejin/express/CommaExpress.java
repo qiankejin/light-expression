@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class CommaExpress implements Var {
 
-    private List<Var> argList;
+    private final List<Var> argList;
 
     public CommaExpress(List<Var> argList) {
         this.argList = argList;

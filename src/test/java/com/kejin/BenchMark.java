@@ -3,6 +3,7 @@ package com.kejin;
 import com.kejin.compile.GrammarRunner;
 import com.kejin.compile.LexicalRunner;
 import com.kejin.enums.CompileException;
+import com.kejin.enums.ExTreeCache;
 import com.kejin.value.Value;
 import com.kejin.var.Var;
 import org.junit.Test;
@@ -15,15 +16,12 @@ public class BenchMark {
     @Test
     public void 性能测试() throws CompileException {
         //表达式
-        String ex = "TY00027T==\"单进单出\"&&notIn(XT00010T,\"无水阳台\",\"冷水阳台\",\"热水阳台\")";
+        String ex = "SWITCH(I04N,1:\"a\",2:\"b\",3:\"c\",4:\"d\",5:\"e\")";
         //编译
         Var compile  = ExpressCompiler.compile(ex);
         //变量入参
         Map<String, Value> varMap = new HashMap<>();
-        varMap.put("TY00027T", Value.of("单进单出"));
-        varMap.put("XT00010T", Value.of("衣帽间"));
-        varMap.put("TY00020B", Value.of(false));
-        varMap.put("XT00025N", Value.of(1));
+        varMap.put("I04N", Value.of(4));
         //计算表达式
         Value result = compile.fill(varMap);
         System.out.println(compile + "=" + result);

@@ -21,7 +21,7 @@ public abstract class SingleOperator extends Operators {
         return Lexical.SIMPLE_OPERATOR;
     }
 
-    public void check(Var right) throws CompileException {
+    public void check(Var right)  {
         if (right.valueType() != returnType(right)) {
             throw new CompileException(toString() + "后的值类型不满足期望" + right);
         }

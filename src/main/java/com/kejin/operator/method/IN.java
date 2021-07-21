@@ -14,7 +14,7 @@ import java.util.function.Function;
 public class IN extends MethodOperators {
 
     @Override
-    public void check(List<Var> argList) throws CompileException {
+    public void check(List<Var> argList)  {
         if (argList.size() < 2) {
             throw new CompileException("in函数参数个数必须大于2");
         }
@@ -48,6 +48,6 @@ public class IN extends MethodOperators {
 
     @Override
     public String symbol() {
-        return "in";
+        return "IN";
     }
 }

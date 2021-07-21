@@ -4,8 +4,8 @@ import com.kejin.enums.ErrorCode;
 import com.kejin.enums.ValueType;
 
 public class ErrorValue extends Value {
-    private ErrorCode errorCode;
-    private String errorMessage;
+    private final ErrorCode errorCode;
+    private final String errorMessage;
 
     public ErrorValue(ErrorCode errorCode, String errorMessage) {
         this.errorCode = errorCode;

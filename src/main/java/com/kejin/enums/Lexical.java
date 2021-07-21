@@ -32,7 +32,7 @@ public enum Lexical {
 
     /**
      * 函数
-     * */
+     */
     METHOD;
 
 }

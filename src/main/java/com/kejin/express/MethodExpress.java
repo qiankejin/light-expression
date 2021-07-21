@@ -7,11 +7,11 @@ import com.kejin.value.Value;
 import java.util.Map;
 import java.util.Set;
 
-public class MethodExpress implements Express{
+public class MethodExpress implements Express {
     protected MethodOperators operators;
     protected BrokersExpress right;
 
-    public MethodExpress(MethodOperators operator,BrokersExpress right) {
+    public MethodExpress(MethodOperators operator, BrokersExpress right) {
         this.operators = operator;
         this.right = right;
     }

@@ -13,11 +13,11 @@ import java.util.function.Function;
 public class Sin extends SingleArgMethod {
     @Override
     public String symbol() {
-        return "sin";
+        return "SIN";
     }
 
     @Override
-    protected void checkArg(Var arg) throws CompileException {
+    protected void checkArg(Var arg)  {
         if (arg.valueType() != ValueType.NUMBER) {
             throw new CompileException("sin函数入参必须是数值");
         }

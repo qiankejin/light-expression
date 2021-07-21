@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class Arg implements Var {
-    protected String code;
+    protected final String code;
     protected static final ExTreeCache<String, Arg> compileCache = new ExTreeCache<>(1024);
 
     @Override
@@ -18,6 +18,9 @@ public abstract class Arg implements Var {
         args.add(code);
     }
 
+    public Arg(String code){
+        this.code=code;
+    }
 
     @Override
     public final Value fill(Map<String, Value> varMap) {

@@ -10,7 +10,7 @@ public class LessThan extends CompareOperator {
 
     @Override
     protected BiFunction<Value, Value, Value> calculateFunction() {
-        return (l,r)->Value.of(l.toDouble() < r.toDouble());
+        return (l, r) -> Value.of(l.toDouble() < r.toDouble());
     }
 
     @Override

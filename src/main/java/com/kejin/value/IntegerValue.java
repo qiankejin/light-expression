@@ -27,8 +27,8 @@ public class IntegerValue extends Value {
 
     @Override
     public boolean eq(Value value) {
-        if(value instanceof DoubleValue||value instanceof IntegerValue){
-            return value.toDouble()==this.toDouble();
+        if (value instanceof DoubleValue || value instanceof IntegerValue) {
+            return value.toDouble() == this.toDouble();
         }
         return false;
     }

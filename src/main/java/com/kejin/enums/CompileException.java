@@ -1,8 +1,8 @@
 package com.kejin.enums;
 
-public class CompileException extends Exception {
+public class CompileException extends RuntimeException {
 
-    private String error;
+    private final String error;
 
     public CompileException(String error) {
         super(error);

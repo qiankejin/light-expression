@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class BinaryExpress implements Express {
-    private Var left;
-    protected DoubleOperators operators;
-    protected Var right;
+    private final Var left;
+    protected final DoubleOperators operators;
+    protected final Var right;
 
     public BinaryExpress(Var left, DoubleOperators operators, Var right) {
         this.left = left;

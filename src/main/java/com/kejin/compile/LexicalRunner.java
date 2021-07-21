@@ -14,8 +14,7 @@ import java.util.List;
 
 
 public class LexicalRunner {
-
-    public static List<Node> compile(String line) throws CompileException {
+    public static List<Node> compile(String line) {
         int size = line.length();
         List<Node> tree = new LinkedList<>();
         LexicalState lexicalState = LexicalState.START;
@@ -125,33 +124,26 @@ public class LexicalRunner {
         return tree;
     }
 
-    private static void toOperator(char[] stack, int point, List<Node> tree) throws CompileException {
-
+    private static void toOperator(char[] stack, int point, List<Node> tree) {
         String op = new String(stack, 0, point);
         Operators operator = Dictionary.toOperators(op);
         if (operator == null) {
             if (point > 1) {
-                int i = 1;
                 boolean splitSuccess = false;
-                for (; i < point - 1; i++) {
-                    op = new String(stack, 0, i);
-                    operator = Dictionary.toOperators(op);
+                int start = 0;
+                int end = 1;
+                while (start < point && end < point) {
+                    operator = Dictionary.toOperators(new String(stack, start, end));
                     if (operator != null) {
                         tree.add(operator);
+                        start += end;
+                        end = 1;
                         splitSuccess = true;
-                        break;
+                    } else {
+                        end++;
                     }
                 }
-                if (splitSuccess) {
-                    op = new String(stack, i, point-i);
-                    operator = Dictionary.toOperators(op);
-                    if (operator != null) {
-                        tree.add(operator);
-                    } else {
-                        throw new CompileException("运算符无法识别" + op);
-
-                    }
-                } else {
+                if (!splitSuccess) {
                     throw new CompileException("运算符无法识别" + op);
                 }
             } else {
@@ -162,11 +154,11 @@ public class LexicalRunner {
         }
     }
 
-    private static Node toText(char[] stack, int point) throws CompileException {
+    private static Node toText(char[] stack, int point) {
         return TextConst.of(new String(stack, 0, point));
     }
 
-    private static Node toConst(char[] stack, int point) throws CompileException {
+    private static Node toConst(char[] stack, int point) {
         if (stack[0] == '"') {
             if (stack[point - 1] == '"') {
                 return TextConst.of(new String(stack, 1, point - 2));
@@ -175,24 +167,28 @@ public class LexicalRunner {
         return NumberConst.of(new String(stack, 0, point));
     }
 
-    private static Node toArg(char[] stack, int point) throws CompileException {
-        String argName = new String(stack, 0, point);
-        if (argName.equals("true") || argName.equals("false")) {
-            return BooleanConst.of(argName);
+    private static Node toArg(char[] stack, int point) {
+        String arg = new String(stack, 0, point);
+        if (arg.equals("true")) {
+            return BooleanConst.TRUE_CONST;
         }
-        Node Node = Dictionary.toOperators(argName);
+        if (arg.equals("false")) {
+            return BooleanConst.FALSE_CONST;
+        }
+        Node Node = Dictionary.toOperators(arg);
         if (Node != null) {
             return Node;
         }
-        if (argName.endsWith("B")) {
-            return BooleanArg.of(argName);
+        char endChar = stack[point - 1];
+        if (endChar == 'B') {
+            return BooleanArg.of(arg);
         }
-        if (argName.endsWith("T")) {
-            return TextArg.of(argName);
+        if (endChar == 'T') {
+            return TextArg.of(arg);
         }
-        if (argName.endsWith("N")) {
-            return NumberArg.of(argName);
+        if (endChar == 'N') {
+            return NumberArg.of(arg);
         }
-        return TextConst.of(argName);
+        return TextConst.of(arg);
     }
 }

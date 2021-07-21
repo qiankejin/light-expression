@@ -69,22 +69,51 @@ public class Decimal {
     }
 
     public Decimal divide(int num) {
-        this.data = this.data.divide(BigDecimal.valueOf(num), 10, RoundingMode.HALF_UP);
+        if (num == 0) {
+            this.data = BigDecimal.ZERO;
+        } else {
+            this.data = this.data.divide(BigDecimal.valueOf(num), 10, RoundingMode.HALF_UP);
+        }
         return this;
     }
 
     public Decimal divide(Decimal num) {
-        this.data = this.data.divide(num.data, 10, RoundingMode.HALF_UP);
+        if(num==null||num.data.equals(BigDecimal.ZERO)){
+            this.data = BigDecimal.ZERO;
+        }else {
+            this.data = this.data.divide(num.data, 10, RoundingMode.HALF_UP);
+        }
         return this;
     }
 
-    public Decimal divide(double num) {
-        this.data = this.data.divide(BigDecimal.valueOf(num), 10, RoundingMode.HALF_UP);
+    public Decimal divide(BigDecimal num) {
+        if(num==null||num.equals(BigDecimal.ZERO)){
+            this.data = BigDecimal.ZERO;
+        }else {
+            this.data = this.data.divide(num, 10, RoundingMode.HALF_UP);
+        }
+        return this;
+    }
+
+    public Decimal divide(Double num) {
+        if (num == null || num == 0) {
+            this.data = BigDecimal.ZERO;
+        } else {
+            this.data = this.data.divide(BigDecimal.valueOf(num), 10, RoundingMode.HALF_UP);
+        }
         return this;
     }
 
     public int round() {
         return this.data.setScale(0, RoundingMode.HALF_UP).intValue();
+    }
+
+    public Decimal round(int scale) {
+        this.data = this.data.setScale(scale, RoundingMode.HALF_UP);
+        return this;
+    }
+    public BigDecimal toDecimal(){
+        return this.data;
     }
 
     public double toDouble() {
@@ -93,6 +122,16 @@ public class Decimal {
 
     public int upScale() {
         return this.data.setScale(0, RoundingMode.UP).intValue();
+    }
+
+    public Decimal up() {
+        this.data = this.data.setScale(0, RoundingMode.UP);
+        return this;
+    }
+
+    public Decimal up(int scale) {
+        this.data = this.data.setScale(scale, RoundingMode.UP);
+        return this;
     }
 
     public Decimal upScale(int scale) {

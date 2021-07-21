@@ -3,7 +3,7 @@ package com.kejin.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings("uncheck")
+@SuppressWarnings("unchecked")
 public class FastMap<T> {
     private T[] data;
     private T def;
@@ -18,7 +18,6 @@ public class FastMap<T> {
         temp.put(k, v);
     }
 
-    @SuppressWarnings("unchecked")
     public void init(T defaultValue) {
         this.def = defaultValue;
         data = (T[]) new Object[max + 1];

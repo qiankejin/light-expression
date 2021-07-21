@@ -15,11 +15,11 @@ public class NotIn extends MethodOperators {
 
     @Override
     public String symbol() {
-        return "notIn";
+        return "NOTIN";
     }
 
     @Override
-    public void check(List<Var> argList) throws CompileException {
+    public void check(List<Var> argList)  {
         if (argList.size() < 2) {
             throw new CompileException("NOTIN函数参数个数必须大于2");
         }

@@ -24,36 +24,36 @@ public class OperatorsPriority {
     public static final int LEVEL_4 = 4;
     /**
      * < <= > >=
-     * */
+     */
     public static final int LEVEL_5 = 5;
     /**
      * == !=
-     * */
+     */
     public static final int LEVEL_6 = 6;
     /**
      * &
-     * */
+     */
     public static final int LEVEL_7 = 7;
     /**
      * ^
-     * */
+     */
     public static final int LEVEL_8 = 8;
     /**
      * |
-     * */
+     */
     public static final int LEVEL_9 = 9;
     /**
      * &&
-     * */
+     */
     public static final int LEVEL_10 = 10;
     /**
      * ||
-     * */
+     */
     public static final int LEVEL_11 = 11;
 
     /**
      * =
-     * */
+     */
     public static final int LEVEL_12 = 12;
 
 

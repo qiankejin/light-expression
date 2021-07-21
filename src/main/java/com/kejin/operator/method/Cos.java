@@ -20,7 +20,7 @@ public class Cos extends SingleArgMethod {
     }
 
     @Override
-    protected void checkArg(Var arg) throws CompileException {
+    protected void checkArg(Var arg)  {
         if (arg.valueType() != ValueType.NUMBER) {
             throw new CompileException("cos函数入参必须是数值");
         }
@@ -33,6 +33,6 @@ public class Cos extends SingleArgMethod {
 
     @Override
     public String symbol() {
-        return "cos";
+        return "COS";
     }
 }

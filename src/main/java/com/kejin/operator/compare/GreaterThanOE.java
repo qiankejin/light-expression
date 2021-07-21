@@ -10,7 +10,7 @@ public class GreaterThanOE extends CompareOperator {
 
     @Override
     public String symbol() {
-        return  ">=";
+        return ">=";
     }
 
     @Override

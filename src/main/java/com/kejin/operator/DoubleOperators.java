@@ -16,9 +16,9 @@ public abstract class DoubleOperators extends Operators {
         return Lexical.OPERATOR;
     }
 
-    public void check(Var left, Var right) throws CompileException {
-        if (left.valueType() != returnType(left,right) || right.valueType() != returnType(left,right)) {
-            throw new CompileException("双目表达式左右值非法" + left + this + right);
+    public void check(Var left, Var right)  {
+        if (left.valueType() != returnType(left, right) || right.valueType() != returnType(left, right)) {
+            throw new CompileException("双目表达式左右值非法 " + left + this + right);
         }
     }
 

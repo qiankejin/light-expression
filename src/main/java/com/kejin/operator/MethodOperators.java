@@ -1,6 +1,5 @@
 package com.kejin.operator;
 
-import com.kejin.enums.CompileException;
 import com.kejin.enums.Lexical;
 import com.kejin.enums.ValueType;
 import com.kejin.express.BrokersExpress;
@@ -20,7 +19,7 @@ public abstract class MethodOperators extends Operators {
         return LEVEL_0;
     }
 
-    public abstract void check(List<Var> argList) throws CompileException;
+    public abstract void check(List<Var> argList) ;
 
     public abstract ValueType methodReturnType(BrokersExpress brokers);
 

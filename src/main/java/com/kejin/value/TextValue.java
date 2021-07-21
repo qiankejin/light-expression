@@ -4,7 +4,7 @@ import com.kejin.enums.ValueType;
 
 public class TextValue extends Value {
 
-    private String text;
+    private final String text;
 
     public TextValue(String text) {
         this.text = text;

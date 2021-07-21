@@ -2,7 +2,6 @@ package com.kejin.express;
 
 
 import com.kejin.enums.ValueType;
-import com.kejin.util.StringUtil;
 import com.kejin.value.Value;
 import com.kejin.var.Var;
 
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class BrokersExpress implements Express {
 
-    private List<Var> argList;
+    private final List<Var> argList;
 
 
     public BrokersExpress(Var argList) {
@@ -32,7 +31,7 @@ public class BrokersExpress implements Express {
 
     @Override
     public String toString() {
-        return "(" + StringUtil.join(",", argList) + ")";
+        return "(" + argList.stream().map(Var::toString).collect(Collectors.joining(",")) + ")";
 
     }
 

@@ -3,7 +3,6 @@ package com.kejin.value;
 import com.kejin.enums.CompileException;
 import com.kejin.enums.ErrorCode;
 import com.kejin.enums.ValueType;
-import com.kejin.var.NumberConst;
 
 import static com.kejin.value.BooleanValue.FALSE;
 import static com.kejin.value.BooleanValue.TRUE;
@@ -21,31 +20,34 @@ public abstract class Value {
     protected Value() {
     }
 
-    public static Value error(ErrorCode errorCode, String errorMessage) {
+    public static ErrorValue error(ErrorCode errorCode, String errorMessage) {
         return new ErrorValue(errorCode, errorMessage);
     }
 
-    public static Value of(Integer number) {
+    public static IntegerValue of(Integer number) {
         return new IntegerValue(number);
     }
 
-    public static Value of(Double number) {
+    public static DoubleValue of(Double number) {
+        if(number==null){
+            return new DoubleValue(Decimal.of(0));
+        }
         return new DoubleValue(Decimal.of(number));
     }
 
-    public static Value of(Decimal decimal) {
+    public static DoubleValue of(Decimal decimal) {
         return new DoubleValue(decimal);
     }
 
-    public static Value of(Boolean bl) {
+    public static BooleanValue of(Boolean bl) {
         return bl ? TRUE : FALSE;
     }
 
-    public static Value ofText(String text) {
+    public static TextValue ofText(String text) {
         return new TextValue(text);
     }
 
-    public static void check(String value, ValueType valueType) throws CompileException {
+    public static void check(String value, ValueType valueType)  {
         switch (valueType) {
             case BOOLEAN:
             case TEXT:
@@ -53,11 +55,11 @@ public abstract class Value {
                     throw new CompileException(value + "类型不满足期望" + valueType);
                 }
             case NUMBER:
-                NumberConst.of(value);
+                of(value, ValueType.NUMBER);
         }
     }
 
-    public static Value of(String value, ValueType valueType) throws CompileException {
+    public static Value of(String value, ValueType valueType)  {
         switch (valueType) {
             case BOOLEAN:
             case TEXT:
@@ -94,18 +96,19 @@ public abstract class Value {
 
 
     public boolean toBoolean() {
-        throw new RuntimeException("不能进行转换");
+        throw new RuntimeException(show()+"不能转换成布尔值");
     }
 
     public int toInt() {
-        throw new RuntimeException("不能进行转换");
+        throw new RuntimeException(show()+"不能转换成数字");
     }
 
     public double toDouble() {
-        throw new RuntimeException("不能进行转换");
+        throw new RuntimeException(show()+"不能转换成数字");
     }
+
     public Decimal toMath() {
-        throw new RuntimeException("不能进行转换");
+        throw new RuntimeException(show()+"不能转换成数字");
     }
 
     public boolean isDouble() {

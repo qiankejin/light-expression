@@ -14,11 +14,11 @@ public class Max extends MethodOperators {
 
     @Override
     public String symbol() {
-        return "max";
+        return "MAX";
     }
 
     @Override
-    public void check(List<Var> argList) throws CompileException {
+    public void check(List<Var> argList)  {
         for (Var express : argList) {
             if (express.valueType() != ValueType.NUMBER) {
                 throw new CompileException("最大值函数入参必须是数值");

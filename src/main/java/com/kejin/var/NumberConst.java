@@ -1,7 +1,6 @@
 package com.kejin.var;
 
 
-import com.kejin.enums.CompileException;
 import com.kejin.value.Value;
 
 import java.util.Map;
@@ -21,7 +20,7 @@ public class NumberConst extends Const implements NumberVar {
     }
 
 
-    public static NumberConst of(String value) throws CompileException {
+    public static NumberConst of(String value) {
         return compileCache.getWithInit(value, NumberConst::new);
     }
 
