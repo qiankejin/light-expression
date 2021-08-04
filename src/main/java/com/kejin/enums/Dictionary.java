@@ -82,6 +82,7 @@ public class Dictionary {
         register(new NotEqual());
         register(new Concat());
         register(new Cos());
+        register(new Sin());
         register(new HalfUp());
         register(new IF());
         register(new IN());

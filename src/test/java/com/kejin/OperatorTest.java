@@ -22,6 +22,11 @@ public class OperatorTest {
     }
 
     @Test
+    public void 正弦(){
+        execute("ROUNDUP(SIN(1),4)",0.0175);
+    }
+
+    @Test
     public void 乘法() {
         execute("2*3", 6);
     }
@@ -30,6 +35,7 @@ public class OperatorTest {
     public void 除法() {
         execute("6/3", 2.0);
     }
+
 
     @Test
     public void 字符串拼接() {
