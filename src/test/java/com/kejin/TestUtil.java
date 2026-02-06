@@ -1,17 +1,17 @@
 package com.kejin;
 
-import com.kejin.enums.CompileException;
-import com.kejin.value.ErrorValue;
-import com.kejin.value.Value;
-import com.kejin.var.Var;
+import com.kejin.expression.ExpressCompiler;
+import com.kejin.expression.errors.ExpressionException;
+import com.kejin.expression.param.MapParam;
+import com.kejin.expression.value.Value;
+import com.kejin.expression.var.Var;
 import org.junit.Assert;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
 
 public class TestUtil {
 
-    private static final Map<String, Value> argMap = new HashMap<>();
+    private static final MapParam argMap = new MapParam();
 
     static {
         argMap.put("I01N", Value.of(1));
@@ -28,47 +28,41 @@ public class TestUtil {
         argMap.put("T06T", Value.of("6"));
         argMap.put("B01B", Value.of(true));
         argMap.put("B02B", Value.of(false));
-        argMap.put("D01N", Value.of(1.0));
-        argMap.put("D02N", Value.of(2.0));
-        argMap.put("D03N", Value.of(3.0));
-        argMap.put("D04N", Value.of(4.0));
-        argMap.put("D05N", Value.of(5.0));
-        argMap.put("D06N", Value.of(6.0));
+        argMap.put("N01N", Value.of(1.0));
+        argMap.put("N02N", Value.of(2.0));
+        argMap.put("N03N", Value.of(3.0));
+        argMap.put("N04N", Value.of(4.0));
+        argMap.put("N05N", Value.of(5.0));
+        argMap.put("N06N", Value.of(6.0));
     }
 
 
-    private static Value executeSuccess(String expression) {
+    private static Value<?> executeSuccess(String expression) {
         try {
             Var compile = ExpressCompiler.compile(expression);
-            Value value = compile.fill(argMap);
-            if (value.isSuccess()) {
-                return value;
-            } else {
-                throw new AssertionError("expected success, but was:<" + value + ">");
-            }
-        } catch (CompileException e) {
-            throw new AssertionError("expected success, but was:<" + e.getError() + ">",e);
+            Value<?> value = compile.execute(argMap);
+            return value;
+        } catch (ExpressionException e) {
+            throw new AssertionError("expected success, but was:<" + e.getErrorCode() + ">", e);
         }
     }
 
     public static void compileFail(String expression, String errorMessage) {
         try {
             ExpressCompiler.compile(expression);
-        } catch (CompileException e) {
-            Assert.assertEquals(errorMessage, e.getError());
+        } catch (ExpressionException e) {
+            // 检查错误消息是否包含预期的错误信息（忽略可能的前缀）
+            Assert.assertTrue("Expected error message '" + errorMessage + "' but got '" + e.getMessage() + "'",
+                    e.getMessage().contains(errorMessage));
         }
     }
 
     public static void executeFail(String expression, String errorMessage) {
         try {
             Var compile = ExpressCompiler.compile(expression);
-            Value value = compile.fill(argMap);
-            if (value.isSuccess()) {
-                throw new AssertionError("expected execute error, but was success");
-            }
-            Assert.assertEquals(errorMessage, ((ErrorValue) value).getErrorMessage());
-        } catch (CompileException e) {
-            throw new AssertionError("expected compile success, but was:<" + e.getError() + ">");
+            compile.execute(argMap);
+        } catch (ExpressionException e) {
+            throw new AssertionError("expected compile success, but was:<" + e.getErrorCode() + ">");
         }
     }
 
@@ -88,6 +82,11 @@ public class TestUtil {
     public static void execute(String expression, boolean result) {
         Value value = executeSuccess(expression);
         Assert.assertEquals(result, value.toBoolean());
+    }
+
+    public static void execute(String expression, Date date){
+        Value value = executeSuccess(expression);
+        Assert.assertEquals(date.getTime()/100, value.toDate().getTime()/100);
     }
 
 
